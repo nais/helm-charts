@@ -17,7 +17,7 @@ alertmanager:
   ##
   image:
     repository: prom/alertmanager
-    tag: v0.9.1
+    tag: v0.10.0
     pullPolicy: IfNotPresent
 
   ## Additional alertmanager container arguments
@@ -27,7 +27,7 @@ alertmanager:
   ## The URL prefix at which the container can be accessed. Useful in the case the '-web.external-url' includes a slug
   ## so that the various internal URLs are still able to access as they are in the default case.
   ## (Optional)
-  baseURL: ""
+  baseURL: "/"
 
   ## Additional alertmanager container environment variable
   ## For instance to add a http_proxy
@@ -187,7 +187,7 @@ kubeStateMetrics:
   ##
   image:
     repository: gcr.io/google_containers/kube-state-metrics
-    tag: v1.1.0-rc.0
+    tag: v1.1.0
     pullPolicy: IfNotPresent
 
   ## kube-state-metrics container arguments
@@ -249,7 +249,7 @@ nodeExporter:
   ##
   image:
     repository: prom/node-exporter
-    tag: v0.15.0
+    tag: v0.15.1
     pullPolicy: IfNotPresent
 
   ## Custom Update Strategy
@@ -328,12 +328,12 @@ server:
   ##
   image:
     repository: prom/prometheus
-    tag: v1.8.1
+    tag: v2.0.0
     pullPolicy: IfNotPresent
 
-  ## (optional) alertmanager URL
+  ## (optional) alertmanager hostname
   ## only used if alertmanager.enabled = false
-  alertmanagerURL: ""
+  alertmanagerHostname: ""
 
   ## The URL prefix at which the container can be accessed. Useful in the case the '-web.external-url' includes a slug
   ## so that the various internal URLs are still able to access as they are in the default case.
@@ -590,10 +590,10 @@ alertmanagerFiles:
 ## Prometheus server ConfigMap entries
 ##
 serverFiles:
-  alerts: ""
-  rules: ""
+  alerts: {}
+  rules: {}
 
-  prometheus.yml: |-
+  prometheus.yml:
     rule_files:
       - /etc/config/rules
       - /etc/config/alerts
