@@ -13,8 +13,11 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - endpoints
+      - horizontalpodautoscalers
       - namespaces
       - nodes
+      - persistentvolumes
       - persistentvolumeclaims
       - pods
       - services
@@ -22,6 +25,13 @@ rules:
       - replicationcontrollers
       - limitranges
       - persistentvolumeclaims
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - autoscaling
+    resources:
+      - horizontalpodautoscalers
     verbs:
       - list
       - watch

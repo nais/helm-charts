@@ -187,7 +187,7 @@ kubeStateMetrics:
   ##
   image:
     repository: gcr.io/google_containers/kube-state-metrics
-    tag: v1.1.0
+    tag: v1.2.0
     pullPolicy: IfNotPresent
 
   ## kube-state-metrics container arguments
@@ -249,7 +249,7 @@ nodeExporter:
   ##
   image:
     repository: prom/node-exporter
-    tag: v0.15.1
+    tag: v0.15.2
     pullPolicy: IfNotPresent
 
   ## Custom Update Strategy
@@ -328,7 +328,7 @@ server:
   ##
   image:
     repository: prom/prometheus
-    tag: v2.0.0
+    tag: v2.1.0
     pullPolicy: IfNotPresent
 
   ## (optional) alertmanager hostname
