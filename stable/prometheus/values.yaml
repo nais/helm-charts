@@ -352,6 +352,10 @@ server:
     #   hostPath: /etc/kubernetes/certs
     #   readOnly: true
 
+  ## Additional Prometheus server scrape configurations
+  ##
+  extraScrapeConfigs: []
+
   ## ConfigMap override where fullname is {{.Release.Name}}-{{.Values.server.configMapOverrideName}}
   ## Defining configMapOverrideName will cause templates/server-configmap.yaml
   ## to NOT generate a ConfigMap resource
