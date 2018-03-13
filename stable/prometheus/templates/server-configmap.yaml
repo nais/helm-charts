@@ -29,15 +29,15 @@ data:
 
 {{- end -}}
 
-{{- if eq $key "prometheus.yml" -}}
-{{- if $alertmanagerHostname -}}
+{{ if eq $key "prometheus.yml" }}
+{{ if $alertmanagerHostname }}
     alerting:
       alertmanagers:
       - path_prefix: {{ $root.Values.alertmanager.baseURL }}
         static_configs:
         - targets:
           - {{ $alertmanagerHostname }}
-{{- end -}}
-{{- end -}}
+{{ end }}
+{{ end }}
 {{- end -}}
 {{- end -}}
