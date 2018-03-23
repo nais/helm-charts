@@ -602,6 +602,7 @@ serverFiles:
       - /etc/config/rules
       - /etc/config/alerts
       - /etc/nais-alerts/*.yml
+      - /etc/app-alerts/*.yml
 
     scrape_configs:
       - job_name: prometheus

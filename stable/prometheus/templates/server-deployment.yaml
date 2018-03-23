@@ -35,6 +35,7 @@ spec:
           args:
             - --volume-dir=/etc/config
             - --volume-dir=/etc/nais-alerts
+            - --volume-dir=/etc/app-alerts
             - --webhook-url=http://localhost:9090{{ .Values.server.baseURL }}/-/reload
           resources:
 {{ toYaml .Values.configmapReload.resources | indent 12 }}
@@ -44,6 +45,9 @@ spec:
               readOnly: true
             - name: nais-alerts-volume
               mountPath: /etc/nais-alerts
+              readOnly: true
+            - name: app-alerts-volume
+              mountPath: /etc/app-alerts
               readOnly: true
 
         - name: {{ template "prometheus.name" . }}-{{ .Values.server.name }}
@@ -77,6 +81,9 @@ spec:
             - name: nais-alerts-volume
               mountPath: /etc/nais-alerts
               readOnly: true
+            - name: app-alerts-volume
+              mountPath: /etc/app-alerts
+              readOnly: true
             - name: storage-volume
               mountPath: {{ .Values.server.persistentVolume.mountPath }}
               subPath: "{{ .Values.server.persistentVolume.subPath }}"
@@ -105,6 +112,9 @@ spec:
         - name: nais-alerts-volume
           configMap:
             name: nais-alerts
+        - name: app-alerts-volume
+          configMap:
+            name: app-alerts
         - name: storage-volume
         {{- if .Values.server.persistentVolume.enabled }}
           persistentVolumeClaim:
