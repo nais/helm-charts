@@ -33,7 +33,8 @@ spec:
           image: "{{ .Values.configmapReload.image.repository }}:{{ .Values.configmapReload.image.tag }}"
           imagePullPolicy: "{{ .Values.configmapReload.image.pullPolicy }}"
           args:
-            - --volume-dir=/etc/config --volume-dir=/etc/nais-alerts
+            - --volume-dir=/etc/config
+            - --volume-dir=/etc/nais-alerts
             - --webhook-url=http://localhost:9090{{ .Values.server.baseURL }}/-/reload
           resources:
 {{ toYaml .Values.configmapReload.resources | indent 12 }}
