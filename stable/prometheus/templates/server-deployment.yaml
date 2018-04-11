@@ -34,8 +34,8 @@ spec:
           imagePullPolicy: "{{ .Values.configmapReload.image.pullPolicy }}"
           args:
             - --volume-dir=/etc/config
-            - --volume-dir=/etc/nais-alerts
-            - --volume-dir=/etc/app-alerts
+            - --volume-dir=/etc/nais-rules
+            - --volume-dir=/etc/app-rules
             - --webhook-url=http://localhost:9090{{ .Values.server.baseURL }}/-/reload
           resources:
 {{ toYaml .Values.configmapReload.resources | indent 12 }}
@@ -43,11 +43,11 @@ spec:
             - name: config-volume
               mountPath: /etc/config
               readOnly: true
-            - name: nais-alerts-volume
-              mountPath: /etc/nais-alerts
+            - name: nais-rules-volume
+              mountPath: /etc/nais-rules
               readOnly: true
-            - name: app-alerts-volume
-              mountPath: /etc/app-alerts
+            - name: app-rules-volume
+              mountPath: /etc/app-rules
               readOnly: true
 
         - name: {{ template "prometheus.name" . }}-{{ .Values.server.name }}
@@ -78,11 +78,11 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config
-            - name: nais-alerts-volume
-              mountPath: /etc/nais-alerts
+            - name: nais-rules-volume
+              mountPath: /etc/nais-rules
               readOnly: true
-            - name: app-alerts-volume
-              mountPath: /etc/app-alerts
+            - name: app-rules-volume
+              mountPath: /etc/app-rules
               readOnly: true
             - name: storage-volume
               mountPath: {{ .Values.server.persistentVolume.mountPath }}
@@ -109,12 +109,12 @@ spec:
         - name: config-volume
           configMap:
             name: {{ if .Values.server.configMapOverrideName }}{{ .Release.Name }}-{{ .Values.server.configMapOverrideName }}{{- else }}{{ template "prometheus.server.fullname" . }}{{- end }}
-        - name: nais-alerts-volume
+        - name: nais-rules-volume
           configMap:
-            name: nais-alerts
-        - name: app-alerts-volume
+            name: nais-rules
+        - name: app-rules-volume
           configMap:
-            name: app-alerts
+            name: app-rules
         - name: storage-volume
         {{- if .Values.server.persistentVolume.enabled }}
           persistentVolumeClaim:
