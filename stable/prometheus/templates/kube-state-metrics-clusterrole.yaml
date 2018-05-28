@@ -23,6 +23,8 @@ rules:
       - resourcequotas
       - replicationcontrollers
       - limitranges
+      - secrets
+      - configmaps
     verbs:
       - list
       - watch
