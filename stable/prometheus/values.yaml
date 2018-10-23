@@ -362,6 +362,12 @@ server:
   ##
   configMapOverrideName: ""
 
+  virtualService:
+    enabled: false
+    annotations: {}
+    hosts: []
+    destination: ""
+
   ingress:
     ## If true, Prometheus server Ingress will be created
     ##

@@ -1,5 +1,4 @@
 {{- if and .Values.pushgateway.enabled .Values.pushgateway.ingress.enabled -}}
-{{- $releaseName := .Release.Name -}}
 {{- $serviceName := include "prometheus.pushgateway.fullname" . }}
 {{- $servicePort := .Values.pushgateway.service.servicePort -}}
 apiVersion: extensions/v1beta1
