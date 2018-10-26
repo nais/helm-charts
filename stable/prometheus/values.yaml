@@ -614,6 +614,7 @@ serverFiles:
       - /etc/config/rules
       - /etc/config/alerts
       - /etc/nais-alerts/*.yml
+      - /etc/cluster-alerts/*.yml
       - /etc/app-alerts/*.yml
 
     scrape_configs:

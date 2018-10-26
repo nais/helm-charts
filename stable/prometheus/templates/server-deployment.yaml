@@ -35,6 +35,7 @@ spec:
           args:
             - --volume-dir=/etc/config
             - --volume-dir=/etc/nais-rules
+            - --volume-dir=/etc/cluster-rules
             - --volume-dir=/etc/app-rules
             - --webhook-url=http://localhost:9090{{ .Values.server.baseURL }}/-/reload
           resources:
@@ -45,6 +46,9 @@ spec:
               readOnly: true
             - name: nais-rules-volume
               mountPath: /etc/nais-rules
+              readOnly: true
+            - name: cluster-rules-volume
+              mountPath: /etc/cluster-rules
               readOnly: true
             - name: app-rules-volume
               mountPath: /etc/app-rules
@@ -81,6 +85,9 @@ spec:
             - name: nais-rules-volume
               mountPath: /etc/nais-rules
               readOnly: true
+            - name: cluster-rules-volume
+              mountPath: /etc/cluster-rules
+              readOnly: true
             - name: app-rules-volume
               mountPath: /etc/app-rules
               readOnly: true
@@ -112,6 +119,9 @@ spec:
         - name: nais-rules-volume
           configMap:
             name: nais-rules
+        - name: cluster-rules-volume
+          configMap:
+            name: cluster-rules
         - name: app-rules-volume
           configMap:
             name: app-rules
