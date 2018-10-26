@@ -40,6 +40,12 @@ alertmanager:
   ##
   configMapOverrideName: ""
 
+  virtualService:
+    enabled: false
+    annotations: {}
+    hosts: []
+    destination: ""
+
   ingress:
     ## If true, alertmanager Ingress will be created
     ##

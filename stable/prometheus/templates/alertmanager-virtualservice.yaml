@@ -1,0 +1,30 @@
+{{- if .Values.alertmanager.virtualService.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+{{- if .Values.alertmanager.virtualService.annotations }}
+  annotations:
+{{ toYaml .Values.alertmanager.virtualService.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app: {{ template "prometheus.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: {{ .Values.alertmanager.name }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "prometheus.alertmanager.fullname" . }}
+  namespace: default
+spec:
+  gateways:
+  - ingress-gateway
+  hosts:
+  {{- range .Values.alertmanager.virtualService.hosts }}
+  - {{ . }}
+  {{- end }}
+  http:
+  - route:
+    - destination:
+        host: {{ .Values.alertmanager.virtualService.destination }}
+        port:
+          number: {{ .Values.alertmanager.service.servicePort }}
+{{- end -}}
