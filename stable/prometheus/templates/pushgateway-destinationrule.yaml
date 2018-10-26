@@ -1,0 +1,18 @@
+{{- if .Values.pushgateway.virtualService.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  labels:
+    app: {{ template "prometheus.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: {{ .Values.pushgateway.name }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "prometheus.pushgateway.fullname" . }}
+  namespace: default
+spec:
+  host: {{ .Values.pushgateway.virtualService.destination }}
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+{{- end -}}

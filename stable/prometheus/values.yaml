@@ -521,6 +521,12 @@ pushgateway:
   ##
   extraArgs: {}
 
+  virtualService:
+    enabled: false
+    annotations: {}
+    hosts: []
+    destination: ""
+
   ingress:
     ## If true, pushgateway Ingress will be created
     ##

@@ -1,0 +1,30 @@
+{{- if .Values.pushgateway.virtualService.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+{{- if .Values.pushgateway.virtualService.annotations }}
+  annotations:
+{{ toYaml .Values.pushgateway.virtualService.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app: {{ template "prometheus.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: {{ .Values.pushgateway.name }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "prometheus.pushgateway.fullname" . }}
+  namespace: default
+spec:
+  gateways:
+  - ingress-gateway
+  hosts:
+  {{- range .Values.pushgateway.virtualService.hosts }}
+  - {{ . }}
+  {{- end }}
+  http:
+  - route:
+    - destination:
+        host: {{ .Values.pushgateway.virtualService.destination }}
+        port:
+          number: {{ .Values.pushgateway.service.servicePort }}
+{{- end -}}
