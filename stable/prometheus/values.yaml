@@ -416,6 +416,17 @@ server:
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   nodeSelector: {}
 
+  alertRulesConfigMaps:
+    clusterRules:
+      name: cluster-rules
+      mount: true
+    naisRules:
+      name: nais-rules
+      mount: true
+    appRules:
+      name: app-rules
+      mount: true
+
   persistentVolume:
     ## If true, Prometheus server will create/use a Persistent Volume Claim
     ## If false, use emptyDir

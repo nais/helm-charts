@@ -34,9 +34,15 @@ spec:
           imagePullPolicy: "{{ .Values.configmapReload.image.pullPolicy }}"
           args:
             - --volume-dir=/etc/config
+            {{- if .Values.server.alertRulesConfigMaps.naisRules.mount }}
             - --volume-dir=/etc/nais-rules
+            {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.clusterRules.mount }}
             - --volume-dir=/etc/cluster-rules
+            {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.appRules.mount }}
             - --volume-dir=/etc/app-rules
+            {{- end }}
             - --webhook-url=http://localhost:9090{{ .Values.server.baseURL }}/-/reload
           resources:
 {{ toYaml .Values.configmapReload.resources | indent 12 }}
@@ -44,16 +50,21 @@ spec:
             - name: config-volume
               mountPath: /etc/config
               readOnly: true
+            {{- if .Values.server.alertRulesConfigMaps.naisRules.mount }}
             - name: nais-rules-volume
               mountPath: /etc/nais-rules
               readOnly: true
+            {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.clusterRules.mount }}
             - name: cluster-rules-volume
               mountPath: /etc/cluster-rules
               readOnly: true
+            {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.appRules.mount }}
             - name: app-rules-volume
               mountPath: /etc/app-rules
               readOnly: true
-
+            {{- end }}
         - name: {{ template "prometheus.name" . }}-{{ .Values.server.name }}
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           imagePullPolicy: "{{ .Values.server.image.pullPolicy }}"
@@ -82,15 +93,21 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config
+            {{- if .Values.server.alertRulesConfigMaps.naisRules.mount }}
             - name: nais-rules-volume
               mountPath: /etc/nais-rules
               readOnly: true
+            {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.clusterRules.mount }}
             - name: cluster-rules-volume
               mountPath: /etc/cluster-rules
               readOnly: true
+            {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.appRules.mount }}
             - name: app-rules-volume
               mountPath: /etc/app-rules
               readOnly: true
+            {{- end }}
             - name: storage-volume
               mountPath: {{ .Values.server.persistentVolume.mountPath }}
               subPath: "{{ .Values.server.persistentVolume.subPath }}"
@@ -116,15 +133,21 @@ spec:
         - name: config-volume
           configMap:
             name: {{ if .Values.server.configMapOverrideName }}{{ .Release.Name }}-{{ .Values.server.configMapOverrideName }}{{- else }}{{ template "prometheus.server.fullname" . }}{{- end }}
+        {{- if .Values.server.alertRulesConfigMaps.naisRules.mount }}
         - name: nais-rules-volume
           configMap:
-            name: nais-rules
+            name: {{ .Values.server.alertRulesConfigMaps.naisRules.name }}
+        {{- end }}
+        {{- if .Values.server.alertRulesConfigMaps.clusterRules.mount }}
         - name: cluster-rules-volume
           configMap:
-            name: cluster-rules
+            name: {{ .Values.server.alertRulesConfigMaps.clusterRules.name }}
+        {{- end }}
+        {{- if .Values.server.alertRulesConfigMaps.appRules.mount }}
         - name: app-rules-volume
           configMap:
-            name: app-rules
+            name: {{ .Values.server.alertRulesConfigMaps.appRules.name }}
+        {{- end }}
         - name: storage-volume
         {{- if .Values.server.persistentVolume.enabled }}
           persistentVolumeClaim:
