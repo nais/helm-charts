@@ -844,6 +844,35 @@ serverFiles:
             action: replace
             target_label: kubernetes_pod_name
 
+remoteStorageAdapter:
+  enabled: false
+  name: remote-storage-adapter
+  image:
+    repository: terjesannum/prometheus-influxdb-storage-adapter
+    tag: 2
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  podAnnotations: {}
+  env: {}
+    # INFLUXDB_URL: http://influxdb:8086
+    # INFLUXDB_DATABASE: prometheus
+    # ...
+  nodeSelector: {}
+  resources: {}
+    # limits:
+    #   cpu: 10m
+    #   memory: 32Mi
+    # requests:
+    #   cpu: 10m
+    #   memory: 32Mi
+  service:
+    # override service name
+    # name: foobar
+    annotations: {}
+    labels: {}
+    servicePort: 9092
+    type: ClusterIP
+
 networkPolicy:
   ## Enable creation of NetworkPolicy resources.
   ##

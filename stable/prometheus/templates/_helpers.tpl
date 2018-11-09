@@ -52,6 +52,23 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
+Create a fully qualified remote-storage-adapter name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "prometheus.remoteStorageAdapter.fullname" -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- printf "%s-%s-%s" .Release.Name $name .Values.remoteStorageAdapter.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "prometheus.remoteStorageAdapter.servicename" -}}
+{{- if .Values.remoteStorageAdapter.service.name -}}
+{{- .Values.remoteStorageAdapter.service.name -}}
+{{- else -}}
+{{- template "prometheus.remoteStorageAdapter.fullname" . -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create a fully qualified pushgateway name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}

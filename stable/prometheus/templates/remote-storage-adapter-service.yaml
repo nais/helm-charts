@@ -1,0 +1,30 @@
+{{- if .Values.remoteStorageAdapter.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+{{- if .Values.remoteStorageAdapter.service.annotations }}
+  annotations:
+{{ toYaml .Values.remoteStorageAdapter.service.annotations | indent 4}}
+{{- end }}
+  labels:
+    app: {{ template "prometheus.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: "{{ .Values.remoteStorageAdapter.name }}"
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+{{- if .Values.remoteStorageAdapter.service.labels }}
+{{ toYaml .Values.remoteStorageAdapter.service.labels | indent 4}}
+{{- end }}
+  name: {{ template "prometheus.remoteStorageAdapter.servicename" . }}
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.remoteStorageAdapter.service.servicePort }}
+      protocol: TCP
+      targetPort: 9092
+  selector:
+    app: {{ template "prometheus.name" . }}
+    component: "{{ .Values.remoteStorageAdapter.name }}"
+    release: {{ .Release.Name }}
+  type: "{{ .Values.remoteStorageAdapter.service.type }}"
+{{- end }}
