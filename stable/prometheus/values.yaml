@@ -870,7 +870,7 @@ remoteStorageAdapter:
     # name: foobar
     annotations: {}
     labels: {}
-    servicePort: 9092
+    servicePort: 9201
     type: ClusterIP
 
 networkPolicy:
