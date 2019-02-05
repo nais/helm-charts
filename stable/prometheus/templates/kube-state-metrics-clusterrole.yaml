@@ -60,4 +60,11 @@ rules:
     verbs:
       - list
       - watch
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - list
+      - watch
 {{- end }}
