@@ -69,8 +69,11 @@ spec:
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           imagePullPolicy: "{{ .Values.server.image.pullPolicy }}"
           args:
-          {{- if .Values.server.retention }}
-            - --storage.tsdb.retention={{ .Values.server.retention }}
+          {{- if .Values.server.retention.time }}
+            - --storage.tsdb.retention.time={{ .Values.server.retention.time }}
+          {{- end }}
+          {{- if .Values.server.retention.size }}
+            - --storage.tsdb.retention.size={{ .Values.server.retention.size }}
           {{- end }}
             - --config.file=/etc/config/prometheus.yml
             - --storage.tsdb.path={{ .Values.server.persistentVolume.mountPath }}

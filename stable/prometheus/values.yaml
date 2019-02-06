@@ -508,9 +508,11 @@ server:
   ##
   terminationGracePeriodSeconds: 300
 
-  ## Prometheus data retention period (i.e 360h)
+  ## Prometheus data retention settings
   ##
-  retention: ""
+  retention:
+    time: ""
+    size: ""
 
 pushgateway:
   ## If false, pushgateway will not be installed
