@@ -426,6 +426,9 @@ server:
     appRules:
       name: app-rules
       mount: true
+    alerteratorRules:
+      name: alerterator-rules
+      mount: true
 
   persistentVolume:
     ## If true, Prometheus server will create/use a Persistent Volume Claim
@@ -635,6 +638,7 @@ serverFiles:
       - /etc/nais-alerts/*.yml
       - /etc/cluster-alerts/*.yml
       - /etc/app-alerts/*.yml
+      - /etc/alerterator-rules/*.yml
 
     scrape_configs:
       - job_name: prometheus

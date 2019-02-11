@@ -43,6 +43,9 @@ spec:
             {{- if .Values.server.alertRulesConfigMaps.appRules.mount }}
             - --volume-dir=/etc/app-rules
             {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.alerteratorRules.mount }}
+            - --volume-dir=/etc/alerterator-rules
+            {{- end }}
             - --webhook-url=http://localhost:9090{{ .Values.server.baseURL }}/-/reload
           resources:
 {{ toYaml .Values.configmapReload.resources | indent 12 }}
@@ -63,6 +66,11 @@ spec:
             {{- if .Values.server.alertRulesConfigMaps.appRules.mount }}
             - name: app-rules-volume
               mountPath: /etc/app-rules
+              readOnly: true
+            {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.alerteratorRules.mount }}
+            - name: alerterator-rules-volume
+              mountPath: /etc/alerterator-rules
               readOnly: true
             {{- end }}
         - name: {{ template "prometheus.name" . }}-{{ .Values.server.name }}
@@ -111,6 +119,11 @@ spec:
               mountPath: /etc/app-rules
               readOnly: true
             {{- end }}
+            {{- if .Values.server.alertRulesConfigMaps.alerteratorRules.mount }}
+            - name: alerterator-rules-volume
+              mountPath: /etc/alerterator-rules
+              readOnly: true
+            {{- end }}
             - name: storage-volume
               mountPath: {{ .Values.server.persistentVolume.mountPath }}
               subPath: "{{ .Values.server.persistentVolume.subPath }}"
@@ -150,6 +163,11 @@ spec:
         - name: app-rules-volume
           configMap:
             name: {{ .Values.server.alertRulesConfigMaps.appRules.name }}
+        {{- end }}
+        {{- if .Values.server.alertRulesConfigMaps.alerteratorRules.mount }}
+        - name: alerterator-rules-volume
+          configMap:
+            name: {{ .Values.server.alertRulesConfigMaps.alerteratorRules.name }}
         {{- end }}
         - name: storage-volume
         {{- if .Values.server.persistentVolume.enabled }}
