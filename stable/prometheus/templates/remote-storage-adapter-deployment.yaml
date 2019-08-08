@@ -33,6 +33,12 @@ spec:
           imagePullPolicy: "{{ .Values.remoteStorageAdapter.image.pullPolicy }}"
           ports:
             - containerPort: 9201
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["all"]
+            runAsNonRoot: true
+            runAsUser: {{ .Values.runAsUser }}
 {{- if .Values.remoteStorageAdapter.env }}
           env:
 {{- range $key, $value := .Values.remoteStorageAdapter.env }}

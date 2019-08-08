@@ -1,5 +1,5 @@
 {{- if .Values.kubeStateMetrics.enabled -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -11,6 +11,11 @@ metadata:
   name: {{ template "prometheus.kubeStateMetrics.fullname" . }}
 spec:
   replicas: {{ .Values.kubeStateMetrics.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "prometheus.name" . }}
+      component: "{{ .Values.kubeStateMetrics.name }}"
+      release: {{ .Release.Name }}
   template:
     metadata:
     {{- if .Values.kubeStateMetrics.podAnnotations }}
@@ -36,6 +41,12 @@ spec:
           ports:
             - name: metrics
               containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["all"]
+            runAsNonRoot: true
+            runAsUser: {{ .Values.runAsUser }}
           resources:
 {{ toYaml .Values.kubeStateMetrics.resources | indent 12 }}
     {{- if .Values.kubeStateMetrics.nodeSelector }}

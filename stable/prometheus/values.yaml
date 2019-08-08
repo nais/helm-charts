@@ -1,3 +1,5 @@
+runAsUser: 10001
+
 rbac:
   create: false
 
