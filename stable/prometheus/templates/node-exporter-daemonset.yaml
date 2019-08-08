@@ -1,5 +1,5 @@
 {{- if .Values.nodeExporter.enabled -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
@@ -14,6 +14,11 @@ spec:
   updateStrategy:
 {{ toYaml .Values.nodeExporter.updateStrategy | indent 4 }}
   {{- end }}
+  selector:
+    matchLabels:
+      app: {{ template "prometheus.name" . }}
+      component: "{{ .Values.nodeExporter.name }}"
+      release: {{ .Release.Name }}
   template:
     metadata:
     {{- if .Values.nodeExporter.podAnnotations }}
