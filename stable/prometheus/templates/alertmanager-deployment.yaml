@@ -57,7 +57,7 @@ spec:
             runAsUser: {{ .Values.runAsUser }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.alertmanager.baseURL }}/#/status
+              path: {{ .Values.alertmanager.baseURL }}/-/ready
               port: 9093
             initialDelaySeconds: 30
             timeoutSeconds: 30
